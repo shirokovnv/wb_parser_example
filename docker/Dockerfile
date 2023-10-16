@@ -23,7 +23,7 @@ RUN apk update \
         libwebp-dev \
         freetype \
         freetype-dev \
-        postgresql-dev \
+        mysql-dev \
         curl \
         wget \
         bash
@@ -38,6 +38,6 @@ RUN docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) \
     gd \
     bcmath \
     pcntl \
-    pdo_pgsql \
+    pdo_mysql \
     sockets \
     zip
