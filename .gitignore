@@ -54,3 +54,6 @@ yarn-error.log
 
 # Database
 /db
+
+# Composer auth.json
+auth.json
