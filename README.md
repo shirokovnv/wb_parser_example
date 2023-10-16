@@ -6,7 +6,7 @@
 - [Make][link-make]
 - [PHP][link-php] v8.1
 - [CakePHP][link-cake-php] v4.x
-- [Clickhouse][link-clickhouse] v 22.x
+- [Clickhouse][link-clickhouse] v22.x
 
 ## Project setup
 
