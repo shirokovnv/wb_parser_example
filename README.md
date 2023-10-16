@@ -13,7 +13,7 @@
 1. _Clone this repository:_
 
 ```bash
-    git clone https://github.com/shirokovnv/wb_parser_example.git && cd wb_parser_examle
+    git clone https://github.com/shirokovnv/wb_parser_example.git && cd wb_parser_example
 ```
 
 2. Rename `auth.json.example` to `auth.json` and put your github oauth token there (needs for pulling `eggheads/cakephp-clickhouse` library from VCS repo)
