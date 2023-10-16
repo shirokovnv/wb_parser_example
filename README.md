@@ -10,18 +10,24 @@
 
 ## Project setup
 
-1. clone this repository:
+1. Clone this repository:
 
 ```bash
     git clone https://github.com/shirokovnv/wb_parser_example.git && cd wb_parser_examle
 ```
 
 2. Rename `auth.json.example` to `auth.json` and put your github oauth token there
-3. run `make build` to build docker image
-4. run `make install` to install php dependencies
-5. run `make up` to run application containers
+3. Run `make build` to build docker image
+4. Run `make install` to install php dependencies
+5. Run `make up` to run application containers
 
 Visit `http://localhost:8080/`
+
+Clickhouse commands:
+
+1. Run `make shell` to enter inside php-app
+2. Run `bin/cake click_house_init` to create DB table
+3. Run `bin/cake click_house_drop` to drop DB table
 
 Run `make down` to shutting down application containers.
 
