@@ -17,9 +17,10 @@
 ```
 
 2. Rename `auth.json.example` to `auth.json` and put your github oauth token there
-3. Run `make build` to build docker image
-4. Run `make install` to install php dependencies
-5. Run `make up` to run application containers
+3. Rename `./config/app_local.example.php` to `./config/app_local.php`
+4. Run `make build` to build docker image
+5. Run `make install` to install php dependencies
+6. Run `make up` to run application containers
 
 Visit `http://localhost:8080/`
 
