@@ -10,13 +10,13 @@
 
 ## Project setup
 
-1. Clone this repository:
+1. _Clone this repository:_
 
 ```bash
     git clone https://github.com/shirokovnv/wb_parser_example.git && cd wb_parser_examle
 ```
 
-2. Rename `auth.json.example` to `auth.json` and put your github oauth token there
+2. Rename `auth.json.example` to `auth.json` and put your github oauth token there (needs for pulling `eggheads/cakephp-clickhouse` library from VCS repo)
 3. Rename `./config/app_local.example.php` to `./config/app_local.php`
 4. Run `make build` to build docker image
 5. Run `make install` to install php dependencies
@@ -24,7 +24,7 @@
 
 Visit `http://localhost:8080/`
 
-Clickhouse commands:
+**Clickhouse commands:**
 
 1. Run `make shell` to enter inside php-app
 2. Run `bin/cake click_house_init` to create DB table
