@@ -22,31 +22,12 @@ class WbProductsParser implements WbProductsParserInterface
      * @param string $query
      * @return WbSearchResponse
      *
-     * @throws \Exception
+     * @throws ClientExceptionInterface
      */
     public function parseByQueryString(string $query): WbSearchResponse
     {
-        try {
-            $response = $this->client->sendRequest(WbSearchRequest::fromQueryString($query));
-            $json = json_decode($response->getBody()->getContents(), true, JSON_THROW_ON_ERROR);
+        $response = $this->client->sendRequest(WbSearchRequest::fromQueryString($query));
 
-            $result = WbSearchResponse::fromJSON($json);
-
-        } catch (\Throwable $exception) {
-
-            if ($exception instanceof ClientExceptionInterface) {
-                // TODO: log exception, define retry policy, etc...
-            }
-
-            if ($exception instanceof \JsonException) {
-                // TODO: log base json exception
-            }
-
-            // TODO: otherwise do something ?
-
-            $result = WbSearchResponse::empty();
-        }
-
-        return $result;
+        return new WbSearchResponse($response->getBody()->getContents());
     }
 }

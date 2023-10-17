@@ -17,6 +17,8 @@ declare(strict_types=1);
 namespace App;
 
 use App\Command\ParseProductsCommand;
+use App\Service\WbProducts\Converter\WbProductsConverterInterface;
+use App\Service\WbProducts\Converter\WbProductsJsonConverter;
 use App\Service\WbProducts\Parser\WbProductsParser;
 use App\Service\WbProducts\Parser\WbProductsParserInterface;
 use App\Service\WbProducts\Repository\WbProductsRepository;
@@ -123,11 +125,13 @@ class Application extends BaseApplication
         // TODO: May be better to use specific config for the wildberries http client
         $container->add(ClientInterface::class, Client::class);
         $container->add(WbProductsParserInterface::class, fn () => new WbProductsParser($container->get(ClientInterface::class)));
+        $container->add(WbProductsConverterInterface::class, WbProductsJsonConverter::class);
         $container->add(WbProductsRepositoryInterface::class, WbProductsRepository::class);
         $container->add(ParseProductsCommand::class)
             ->addArguments(
                 [
                     $container->get(WbProductsParserInterface::class),
+                    $container->get(WbProductsConverterInterface::class),
                     $container->get(WbProductsRepositoryInterface::class)
                 ]);
     }

@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Service\WbProducts\Converter\Exception\ConvertException;
+use App\Service\WbProducts\Converter\WbProductsConverterInterface;
 use App\Service\WbProducts\Parser\WbProductsParserInterface;
 use App\Service\WbProducts\Repository\WbProductsRepositoryInterface;
 use Cake\Console\Arguments;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
+use Psr\Http\Client\ClientExceptionInterface;
 
 class ParseProductsCommand extends AbstractClickhouseCommand
 {
@@ -16,11 +19,14 @@ class ParseProductsCommand extends AbstractClickhouseCommand
 
     /**
      * @param WbProductsParserInterface $parser
+     * @param WbProductsConverterInterface $converter
      * @param WbProductsRepositoryInterface $repository
      */
     public function __construct(
         private WbProductsParserInterface $parser,
-        private WbProductsRepositoryInterface $repository)
+        private WbProductsConverterInterface $converter,
+        private WbProductsRepositoryInterface $repository
+    )
     {
     }
 
@@ -43,9 +49,33 @@ class ParseProductsCommand extends AbstractClickhouseCommand
      */
     public function execute(Arguments $args, ConsoleIo $io)
     {
-        $response = $this->parser->parseByQueryString($args->getArgument(self::KEY_QUERY));
-        $products = $response->getProducts();
-        $this->repository->transactionalBulkInsert($products);
+        $userQuery = $args->getArgument(self::KEY_QUERY);
+
+        if ($userQuery === null) {
+            $io->error('Query string is required.');
+
+            return self::CODE_ERROR;
+        }
+
+        try {
+            $response = $this->parser->parseByQueryString($userQuery);
+            $products = $this->converter->convert($response->getContent(), $userQuery);
+            $this->repository->transactionalBulkInsert($products);
+        } catch (\Throwable $exception) {
+            if ($exception instanceof ClientExceptionInterface) {
+                // TODO: log http error ? Define retry policy ? ...
+            }
+
+            if ($exception instanceof ConvertException) {
+                // TODO: log converter error
+            }
+
+            // TODO: do something else ?
+
+            $io->error($exception->getMessage());
+
+            return self::CODE_ERROR;
+        }
 
         $io->out(sprintf("Inserted %d products\r\n", count($products)));
 
