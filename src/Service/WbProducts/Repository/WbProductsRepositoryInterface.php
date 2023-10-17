@@ -12,7 +12,7 @@ interface WbProductsRepositoryInterface
      * @param array<WbProductEntity> $products
      * @return void
      */
-    public function transactionalBulkInsert(array $products): void;
+    public function bulkInsert(array $products): void;
 
     /**
      * @param string $query
