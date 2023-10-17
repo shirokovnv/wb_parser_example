@@ -16,17 +16,23 @@ declare(strict_types=1);
  */
 namespace App;
 
+use App\Service\WbProducts\Parser\WbProductsParser;
+use App\Service\WbProducts\Parser\WbProductsParserInterface;
+use App\Service\WbProducts\Repository\WbProductsRepository;
+use App\Service\WbProducts\Repository\WbProductsRepositoryInterface;
 use Cake\Core\Configure;
 use Cake\Core\ContainerInterface;
 use Cake\Datasource\FactoryLocator;
 use Cake\Error\Middleware\ErrorHandlerMiddleware;
 use Cake\Http\BaseApplication;
+use Cake\Http\Client;
 use Cake\Http\Middleware\BodyParserMiddleware;
 use Cake\Http\Middleware\CsrfProtectionMiddleware;
 use Cake\Http\MiddlewareQueue;
 use Cake\ORM\Locator\TableLocator;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
+use Psr\Http\Client\ClientInterface;
 
 /**
  * Application setup class.
@@ -113,6 +119,11 @@ class Application extends BaseApplication
      */
     public function services(ContainerInterface $container): void
     {
+        // TODO: May be better to use specific config for the wildberries http client
+        $container->add(ClientInterface::class, Client::class);
+        $container->add(WbProductsParserInterface::class, fn () => new WbProductsParser($container->get(ClientInterface::class)));
+
+        $container->add(WbProductsRepositoryInterface::class, WbProductsRepository::class);
     }
 
     /**
