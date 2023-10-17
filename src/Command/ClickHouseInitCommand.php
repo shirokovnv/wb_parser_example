@@ -40,9 +40,9 @@ class ClickHouseInitCommand extends AbstractClickhouseCommand
         $client = ClickHouse::getInstance()->getClient();
         $client->write('
             CREATE TABLE IF NOT EXISTS {table_name} (
-                product_name String,
+                name String,
                 position UInt32,
-                brand_name String,
+                brand String,
                 query String,
                 timestamp DateTime DEFAULT now()
             )
