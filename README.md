@@ -30,7 +30,7 @@ Visit `http://localhost:8080/`
 2. Run `bin/cake click_house_init` to create DB table
 3. Run `bin/cake click_house_drop` to drop DB table
 
-Run `bin/cake parse_products` for parsing and saving products. (_WARNING:_ can be cache folder permission errors)
+Run `bin/cake parse_products "%query string%"` for parsing and saving products. (_WARNING:_ can be cache folder permission errors)
 
 Run `make down` to shutting down application containers.
 
