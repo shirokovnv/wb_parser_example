@@ -6,7 +6,7 @@
 - [Make][link-make]
 - [PHP][link-php] v8.1
 - [CakePHP][link-cake-php] v4.x
-- [Clickhouse][link-clickhouse] v22.x
+- [ClickHouse][link-clickhouse] v22.x
 
 ## Project setup
 
@@ -24,7 +24,7 @@
 
 Visit `http://localhost:8080/`
 
-**Clickhouse commands:**
+**ClickHouse commands:**
 
 1. Run `make shell` to enter inside php-app
 2. Run `bin/cake click_house_init` to create DB table
