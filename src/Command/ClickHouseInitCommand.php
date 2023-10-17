@@ -5,7 +5,6 @@ namespace App\Command;
 
 use Cake\Console\Arguments;
 use Cake\Console\ConsoleIo;
-use Cake\Console\ConsoleOptionParser;
 use Eggheads\CakephpClickHouse\ClickHouse;
 
 /**
@@ -13,20 +12,6 @@ use Eggheads\CakephpClickHouse\ClickHouse;
  */
 class ClickHouseInitCommand extends AbstractClickhouseCommand
 {
-    /**
-     * Hook method for defining this command's option parser.
-     *
-     * @see https://book.cakephp.org/4/en/console-commands/commands.html#defining-arguments-and-options
-     * @param \Cake\Console\ConsoleOptionParser $parser The parser to be defined
-     * @return \Cake\Console\ConsoleOptionParser The built parser.
-     */
-    public function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
-    {
-        $parser = parent::buildOptionParser($parser);
-
-        return $parser;
-    }
-
     /**
      * Implement this method with your command's logic.
      *
@@ -50,6 +35,8 @@ class ClickHouseInitCommand extends AbstractClickhouseCommand
             PRIMARY KEY (position, timestamp);
         ', ['table_name' => self::TABLE_NAME]);
 
-        echo sprintf("Table %s created\r\n", self::TABLE_NAME);
+        $io->out(sprintf("Table %s created\r\n", self::TABLE_NAME));
+
+        return self::CODE_SUCCESS;
     }
 }

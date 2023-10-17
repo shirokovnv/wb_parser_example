@@ -5,7 +5,6 @@ namespace App\Command;
 
 use Cake\Console\Arguments;
 use Cake\Console\ConsoleIo;
-use Cake\Console\ConsoleOptionParser;
 use Eggheads\CakephpClickHouse\ClickHouse;
 
 /**
@@ -13,20 +12,6 @@ use Eggheads\CakephpClickHouse\ClickHouse;
  */
 class ClickHouseDropCommand extends AbstractClickhouseCommand
 {
-    /**
-     * Hook method for defining this command's option parser.
-     *
-     * @see https://book.cakephp.org/4/en/console-commands/commands.html#defining-arguments-and-options
-     * @param \Cake\Console\ConsoleOptionParser $parser The parser to be defined
-     * @return \Cake\Console\ConsoleOptionParser The built parser.
-     */
-    public function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
-    {
-        $parser = parent::buildOptionParser($parser);
-
-        return $parser;
-    }
-
     /**
      * Implement this method with your command's logic.
      *
@@ -40,6 +25,8 @@ class ClickHouseDropCommand extends AbstractClickhouseCommand
         $client = ClickHouse::getInstance()->getClient();
         $client->write("DROP TABLE IF EXISTS {table_name}", ['table_name' => self::TABLE_NAME]);
 
-        echo sprintf("Table %s dropped\r\n", self::TABLE_NAME);
+        $io->out(sprintf("Table %s dropped\r\n", self::TABLE_NAME));
+
+        return self::CODE_SUCCESS;
     }
 }
