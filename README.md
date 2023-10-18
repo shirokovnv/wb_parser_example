@@ -34,7 +34,7 @@ Run `bin/cake parse_products "%query string%"` for parsing and saving products. 
 
 Run `make down` to shutting down application containers.
 
-Run `make` to see available commands.
+Run `make help` to see available commands.
 
 ## License
 
