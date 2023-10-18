@@ -60,7 +60,7 @@ class ParseProductsCommand extends AbstractClickhouseCommand
         try {
             $response = $this->parser->parseByQueryString($userQuery);
             $products = $this->converter->convert($response->getContent(), $userQuery);
-            $this->repository->transactionalBulkInsert($products);
+            $this->repository->bulkInsert($products);
         } catch (\Throwable $exception) {
             if ($exception instanceof ClientExceptionInterface) {
                 // TODO: log http error ? Define retry policy ? ...

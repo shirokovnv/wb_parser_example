@@ -34,12 +34,17 @@ class WbProductsRepository implements WbProductsRepositoryInterface
 
     /**
      * @param string $query
-     * @return array
+     * @return array<WbProductEntity>
      */
     public function getByQueryString(string $query): array
     {
-        return $this->table
+        $rows = $this->table
             ->select('SELECT * FROM wbProducts WHERE query = :query', ['query' => $query])
             ->rows();
+
+        return array_map(
+            fn (array $row) => new WbProductEntity($row['name'], $row['brand'], $row['position'], $row['query']),
+            $rows
+        );
     }
 }

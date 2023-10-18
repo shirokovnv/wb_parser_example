@@ -16,7 +16,7 @@ interface WbProductsRepositoryInterface
 
     /**
      * @param string $query
-     * @return array
+     * @return array<WbProductEntity>
      */
     public function getByQueryString(string $query): array;
 }
