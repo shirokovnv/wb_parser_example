@@ -15,35 +15,37 @@ class WbProductsJsonConverter implements WbProductsConverterInterface
 
     private const KEY_META = 'metadata';
 
-    private const KEY_QUERY = 'normquery';
+    private const KEY_NAME = 'name';
 
     /**
      * @param mixed $rawData
-     * @param string $userQuery
      * @return array<WbProductEntity>
      *
-     * @throws \Exception
+     * @throws ConvertException
      */
-    public function convert(mixed $rawData, string $userQuery): array
+    public function convert(mixed $rawData): array
     {
         $this->assertRawDataIsString($rawData);
 
-        $jsonData = json_decode($rawData, true, JSON_THROW_ON_ERROR);
+        $jsonData = json_decode($rawData, true);
 
-        $this->assertJsonStructure($jsonData);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new ConvertException(json_last_error_msg());
+        }
+
+        $this->assertProductsKeyContainsArray($jsonData);
+        $this->assertMetaKeyContainsQueryString($jsonData);
 
         $products = $jsonData[self::KEY_DATA][self::KEY_PRODUCTS];
+        $query = (string) $jsonData[self::KEY_META][self::KEY_NAME];
 
-        // TODO: use normalized query or original query ?
-        $query = $json[self::KEY_META][self::KEY_QUERY] ?? $userQuery;
-
-        // TODO: Starting index = 0 OR 1 ?
+        // TODO: what if fields are nullable ? OR we don't find field keys ?
         return array_map(
             fn (array $product, int $index) => new WbProductEntity(
                 $product['name'],
                 $product['brand'],
-                $index + 1,
-                $userQuery
+                $index + 1, // Start from 1
+                $query
             ),
             $products,
             array_keys($products)
@@ -53,7 +55,8 @@ class WbProductsJsonConverter implements WbProductsConverterInterface
     /**
      * @param mixed $rawData
      * @return void
-     * @throws \Exception
+     *
+     * @throws ConvertException
      */
     private function assertRawDataIsString(mixed $rawData) {
         if (! is_string($rawData)) {
@@ -64,11 +67,26 @@ class WbProductsJsonConverter implements WbProductsConverterInterface
     /**
      * @param array $jsonData
      * @return void
-     * @throws \Exception
+     *
+     * @throws ConvertException
      */
-    private function assertJsonStructure(array $jsonData) {
-        if (! isset($jsonData[self::KEY_DATA][self::KEY_PRODUCTS])) {
-            throw new \Exception('Bad JSON structure');
+    private function assertProductsKeyContainsArray(array $jsonData) {
+        if (! (isset($jsonData[self::KEY_DATA][self::KEY_PRODUCTS]) &&
+            is_array($jsonData[self::KEY_DATA][self::KEY_PRODUCTS]))) {
+            throw new ConvertException('Products key must contain array.');
+        }
+    }
+
+    /**
+     * @param array $jsonData
+     * @return void
+     *
+     * @throws ConvertException
+     */
+    private function assertMetaKeyContainsQueryString(array $jsonData) {
+        if (! (isset($jsonData[self::KEY_META][self::KEY_NAME])
+            && is_string($jsonData[self::KEY_META][self::KEY_NAME]))) {
+            throw new ConvertException('Meta key must provide query string.');
         }
     }
 }

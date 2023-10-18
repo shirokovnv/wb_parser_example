@@ -37,7 +37,7 @@ class ParseProductsCommand extends AbstractClickhouseCommand
     protected function buildOptionParser(ConsoleOptionParser $parser): ConsoleOptionParser
     {
         $parser->addArgument(self::KEY_QUERY, [
-            'help' => 'Query string for products search in Wildberries'
+            'help' => 'Query string for product search in Wildberries'
         ]);
         return $parser;
     }
@@ -59,7 +59,7 @@ class ParseProductsCommand extends AbstractClickhouseCommand
 
         try {
             $response = $this->parser->parseByQueryString($userQuery);
-            $products = $this->converter->convert($response->getContent(), $userQuery);
+            $products = $this->converter->convert($response->getContent());
             $this->repository->bulkInsert($products);
         } catch (\Throwable $exception) {
             if ($exception instanceof ClientExceptionInterface) {
