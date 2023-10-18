@@ -17,8 +17,7 @@ class WbProductEntity
         private string $brand,
         private int $position,
         private string $query
-    )
-    {
+    ) {
     }
 
     /**

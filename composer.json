@@ -23,6 +23,7 @@
         "cakephp/bake": "^2.8",
         "cakephp/cakephp-codesniffer": "^4.5",
         "cakephp/debug_kit": "^4.9",
+        "friendsofphp/php-cs-fixer": "^3.35",
         "josegonzalez/dotenv": "^4.0",
         "phpunit/phpunit": "^9.6"
     },
@@ -50,8 +51,8 @@
             "@test",
             "@cs-check"
         ],
-        "cs-check": "phpcs --colors -p",
-        "cs-fix": "phpcbf --colors -p",
+        "cs-check": "./vendor/bin/php-cs-fixer fix -vvv --dry-run --show-progress=dots",
+        "cs-fix": "./vendor/bin/php-cs-fixer fix -vvv --show-progress=dots",
         "test": "phpunit --colors=always"
     },
     "minimum-stability": "dev",

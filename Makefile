@@ -5,7 +5,7 @@
 SHELL = /bin/sh
 RUN_APP_ARGS = --rm --user "$(shell id -u):$(shell id -g)"
 
-.PHONY : help build install up down restart shell clean logs
+.PHONY : help build install up down restart shell fix clean logs
 .DEFAULT_GOAL : help
 
 # This will output the help for each task. thanks to https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
@@ -32,6 +32,9 @@ shell: ## Start shell into container with php
 
 clean: ## Remove all dependencies and unimportant files
 	-rm -rf ./composer.lock ./vendor ./coverage ./tests/temp
+
+fix: ## Fix code style
+	docker-compose run $(RUN_APP_ARGS) app composer cs-fix
 
 logs: ## Show docker logs
 	docker-compose logs --follow

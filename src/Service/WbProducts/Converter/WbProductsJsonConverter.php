@@ -59,7 +59,8 @@ class WbProductsJsonConverter implements WbProductsConverterInterface
      *
      * @throws ConvertException
      */
-    private function assertRawDataIsString(mixed $rawData) {
+    private function assertRawDataIsString(mixed $rawData)
+    {
         if (! is_string($rawData)) {
             throw new ConvertException('Raw data must be string. Unable to parse JSON.');
         }
@@ -71,7 +72,8 @@ class WbProductsJsonConverter implements WbProductsConverterInterface
      *
      * @throws ConvertException
      */
-    private function assertProductsKeyContainsArray(array $jsonData) {
+    private function assertProductsKeyContainsArray(array $jsonData)
+    {
         if (! (isset($jsonData[self::KEY_DATA][self::KEY_PRODUCTS]) &&
             is_array($jsonData[self::KEY_DATA][self::KEY_PRODUCTS]))) {
             throw new ConvertException('Products key must contain array.');
@@ -84,7 +86,8 @@ class WbProductsJsonConverter implements WbProductsConverterInterface
      *
      * @throws ConvertException
      */
-    private function assertMetaKeyContainsQueryString(array $jsonData) {
+    private function assertMetaKeyContainsQueryString(array $jsonData)
+    {
         if (! (isset($jsonData[self::KEY_META][self::KEY_NAME])
             && is_string($jsonData[self::KEY_META][self::KEY_NAME]))) {
             throw new ConvertException('Meta key must provide query string.');

@@ -57,3 +57,6 @@ yarn-error.log
 
 # Composer auth.json
 auth.json
+
+# Cache
+*.cache

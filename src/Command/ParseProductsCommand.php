@@ -32,8 +32,7 @@ class ParseProductsCommand extends AbstractClickhouseCommand
         private WbProductsParserInterface $parser,
         private WbProductsConverterInterface $converter,
         private WbProductsRepositoryInterface $repository
-    )
-    {
+    ) {
     }
 
     /**
@@ -72,7 +71,7 @@ class ParseProductsCommand extends AbstractClickhouseCommand
                 // TODO: product keys must be numeric to avoid overwriting.
                 $products = array_merge(
                     $products,
-                    $this->converter->convert($response->getContent(), ( $page - 1 ) * self::PER_PAGE)
+                    $this->converter->convert($response->getContent(), ($page - 1) * self::PER_PAGE)
                 );
 
                 $io->info(sprintf("Collect %d products", count($products)));
