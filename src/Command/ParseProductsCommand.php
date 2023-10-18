@@ -11,6 +11,7 @@ use App\Service\WbProducts\Repository\WbProductsRepositoryInterface;
 use Cake\Console\Arguments;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
+use Cake\Log\Log;
 use Psr\Http\Client\ClientExceptionInterface;
 
 class ParseProductsCommand extends AbstractClickhouseCommand
@@ -81,14 +82,12 @@ class ParseProductsCommand extends AbstractClickhouseCommand
             $this->repository->bulkInsert($products);
         } catch (\Throwable $exception) {
             if ($exception instanceof ClientExceptionInterface) {
-                // TODO: log http error ? Define retry policy ? ...
+                $this->log('Http client exception: ' . $exception->getMessage());
             }
 
             if ($exception instanceof ConvertException) {
-                // TODO: log converter error
+                $this->log('Converter exception' . $exception->getMessage());
             }
-
-            // TODO: do something else ?
 
             $io->error($exception->getMessage());
 
