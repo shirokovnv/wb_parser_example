@@ -17,6 +17,12 @@ class ParseProductsCommand extends AbstractClickhouseCommand
 {
     private const KEY_QUERY = 'query';
 
+    private const MIN_PAGE = 1;
+
+    private const MAX_PAGE = 10;
+
+    private const PER_PAGE = 100;
+
     /**
      * @param WbProductsParserInterface $parser
      * @param WbProductsConverterInterface $converter
@@ -57,9 +63,21 @@ class ParseProductsCommand extends AbstractClickhouseCommand
             return self::CODE_ERROR;
         }
 
+        $products = [];
+
         try {
-            $response = $this->parser->parseByQueryString($userQuery);
-            $products = $this->converter->convert($response->getContent());
+            for ($page = self::MIN_PAGE; $page <= self::MAX_PAGE; $page++) {
+                $response = $this->parser->parseByUserParams($userQuery, $page);
+
+                // TODO: product keys must be numeric to avoid overwriting.
+                $products = array_merge(
+                    $products,
+                    $this->converter->convert($response->getContent(), ( $page - 1 ) * self::PER_PAGE)
+                );
+
+                $io->info(sprintf("Collect %d products", count($products)));
+            }
+
             $this->repository->bulkInsert($products);
         } catch (\Throwable $exception) {
             if ($exception instanceof ClientExceptionInterface) {
@@ -77,7 +95,11 @@ class ParseProductsCommand extends AbstractClickhouseCommand
             return self::CODE_ERROR;
         }
 
-        $io->out(sprintf("Inserted %d products\r\n", count($products)));
+        if (count($products) > 0) {
+            $io->out(sprintf("Inserted %d products\r\n", count($products)));
+        } else {
+            $io->out('No products inserted...');
+        }
 
         return self::CODE_SUCCESS;
     }

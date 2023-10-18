@@ -38,12 +38,14 @@ class WbSearchRequest extends Request
 
     /**
      * @param string $query
+     * @param int $page
+     *
      * @return WbSearchRequest
      */
-    public static function fromQueryString(string $query): WbSearchRequest
+    public static function fromUserParams(string $query, int $page = 1): WbSearchRequest
     {
         $params = http_build_query(
-            array_merge(self::BASE_QUERY_PARAMS, ['query' => $query])
+            array_merge(self::BASE_QUERY_PARAMS, ['query' => $query, 'page' => $page])
         );
 
         $url = sprintf('%s%s%s', self::BASE_URL, self::SEARCH_URI, $params);

@@ -20,13 +20,15 @@ class WbProductsParser implements WbProductsParserInterface
 
     /**
      * @param string $query
-     * @return WbSearchResponse
+     * @param int $page
      *
+     * @return WbSearchResponse
      * @throws ClientExceptionInterface
      */
-    public function parseByQueryString(string $query): WbSearchResponse
+    public function parseByUserParams(string $query, int $page): WbSearchResponse
     {
-        $response = $this->client->sendRequest(WbSearchRequest::fromQueryString($query));
+        $request = WbSearchRequest::fromUserParams($query, $page);
+        $response = $this->client->sendRequest($request);
 
         return new WbSearchResponse($response->getBody()->getContents());
     }

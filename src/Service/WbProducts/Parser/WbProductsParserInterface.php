@@ -10,7 +10,9 @@ interface WbProductsParserInterface
 {
     /**
      * @param string $query
+     * @param int $page
+     *
      * @return WbSearchResponse
      */
-    public function parseByQueryString(string $query): WbSearchResponse;
+    public function parseByUserParams(string $query, int $page): WbSearchResponse;
 }

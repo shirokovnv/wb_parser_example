@@ -19,11 +19,12 @@ class WbProductsJsonConverter implements WbProductsConverterInterface
 
     /**
      * @param mixed $rawData
+     * @param int $startIndex
      * @return array<WbProductEntity>
      *
      * @throws ConvertException
      */
-    public function convert(mixed $rawData): array
+    public function convert(mixed $rawData, int $startIndex = 1): array
     {
         $this->assertRawDataIsString($rawData);
 
@@ -44,7 +45,7 @@ class WbProductsJsonConverter implements WbProductsConverterInterface
             fn (array $product, int $index) => new WbProductEntity(
                 $product['name'],
                 $product['brand'],
-                $index + 1, // Start from 1
+                $startIndex + $index + 1,
                 $query
             ),
             $products,
