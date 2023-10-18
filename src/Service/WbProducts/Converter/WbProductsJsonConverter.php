@@ -7,6 +7,9 @@ namespace App\Service\WbProducts\Converter;
 use App\Service\WbProducts\Converter\Exception\ConvertException;
 use App\Service\WbProducts\DTO\WbProductEntity;
 
+/**
+ * Зона ответственности: преобразование сырых (строковый JSON) данных товаров в массив DTO WbProductEntity;
+ */
 class WbProductsJsonConverter implements WbProductsConverterInterface
 {
     private const KEY_DATA = 'data';

@@ -13,6 +13,9 @@ use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
 use Psr\Http\Client\ClientExceptionInterface;
 
+/**
+ * Зона отвественности: Парсинг товаров по поисковой фразе с search.wb.ru и сохранение их в ClickHouse (первые 1000 штук).
+ */
 class ParseProductsCommand extends AbstractClickhouseCommand
 {
     private const KEY_QUERY = 'query';

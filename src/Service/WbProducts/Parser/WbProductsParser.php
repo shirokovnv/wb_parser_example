@@ -9,6 +9,9 @@ use App\Service\WbProducts\Parser\Client\WbSearchResponse;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
 
+/**
+ * Зона ответственности: Получение данных о товарах с эндопоинта search.wb.ru по поисковой фразе.
+ */
 class WbProductsParser implements WbProductsParserInterface
 {
     /**

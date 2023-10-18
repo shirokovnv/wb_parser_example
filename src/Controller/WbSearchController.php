@@ -7,6 +7,9 @@ namespace App\Controller;
 use App\Form\WbProductsSearchForm;
 use App\Service\WbProducts\Repository\WbProductsRepositoryInterface;
 
+/**
+ * Зона ответственности: Управление отображением страницы с формой поиска по товарам.
+ */
 class WbSearchController extends AppController
 {
     /**

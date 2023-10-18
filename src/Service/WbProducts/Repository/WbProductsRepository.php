@@ -8,6 +8,9 @@ use App\Model\Table\WbProductsClickhouseTable;
 use App\Service\WbProducts\DTO\WbProductEntity;
 use Eggheads\CakephpClickHouse\Exception\FieldNotFoundException;
 
+/**
+ * Зона ответственности: сохранение и получение данных о товарах из ClickHouse.
+ */
 class WbProductsRepository implements WbProductsRepositoryInterface
 {
     /**
