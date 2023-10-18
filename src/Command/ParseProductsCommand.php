@@ -86,7 +86,7 @@ class ParseProductsCommand extends AbstractClickhouseCommand
             }
 
             if ($exception instanceof ConvertException) {
-                $this->log('Converter exception' . $exception->getMessage());
+                $this->log('Converter exception: ' . $exception->getMessage());
             }
 
             $io->error($exception->getMessage());
