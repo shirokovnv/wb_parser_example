@@ -87,9 +87,19 @@ endif;
             <div class="content">
                 <div class="row">
                     <div class="column">
-
-
-                        <a href="/wbSearch">Форма поиска</a>
+                        <h3>Принцип работы:</h3>
+                        <ol>
+                            <li>Нужно попасть в shell докер-контейнера с php-приложением c помощью: <strong>make shell</strong></li>
+                            <li>Выполнить команду <strong>bin/cake click_house_init</strong> для создания таблицы ClickHouse</li>
+                            <li>Выполнить команду
+                                <strong>bin/cake parse_products "[ПОИСКОВАЯ ФРАЗА]"</strong> - она парсит 1000 записей (10 страниц по 100)
+                                с эндпоинта <em>search.wb.ru</em> и сохраняет данные в <strong>ClickHouse</strong>
+                            </li>
+                            <li>Скрипт выведет кол-во сохраненных записей, либо ошибку</li>
+                            <li>Далее <a href="/wbSearch">Перейти к форме поиска</a></li>
+                            <li>Ввести ту же поисковую фразу и нажать <strong>Enter</strong></li>
+                            <li>Если данные были успешно сохранены ранее, то они отобразятся в табличном виде</li>
+                        </ol>
                     </div>
                 </div>
             </div>
