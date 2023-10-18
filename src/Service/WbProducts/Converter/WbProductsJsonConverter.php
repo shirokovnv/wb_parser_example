@@ -46,8 +46,8 @@ class WbProductsJsonConverter implements WbProductsConverterInterface
         // TODO: what if fields are nullable ? OR we don't find field keys ?
         return array_map(
             fn (array $product, int $index) => new WbProductEntity(
-                htmlentities($product['name'] ?? ''),
-                htmlentities($product['brand'] ?? ''),
+                $product['name'] ?? '',
+                $product['brand'] ?? '',
                 $startIndex + $index + 1,
                 $query
             ),
