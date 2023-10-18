@@ -6,6 +6,7 @@ namespace App\Service\WbProducts\Repository;
 
 use App\Model\Table\WbProductsClickhouseTable;
 use App\Service\WbProducts\DTO\WbProductEntity;
+use ClickHouseDB\Exception\QueryException;
 use Eggheads\CakephpClickHouse\Exception\FieldNotFoundException;
 
 /**
@@ -28,7 +29,7 @@ class WbProductsRepository implements WbProductsRepositoryInterface
      * @param array<WbProductEntity> $products
      * @return void
      *
-     * @throws FieldNotFoundException
+     * @throws FieldNotFoundException|QueryException
      */
     public function bulkInsert(array $products): void
     {
@@ -38,6 +39,8 @@ class WbProductsRepository implements WbProductsRepositoryInterface
     /**
      * @param string $query
      * @return array<WbProductEntity>
+     *
+     * @throws QueryException
      */
     public function getByQueryString(string $query): array
     {
