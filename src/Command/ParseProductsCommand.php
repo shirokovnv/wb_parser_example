@@ -71,7 +71,6 @@ class ParseProductsCommand extends AbstractClickhouseCommand
             for ($page = self::MIN_PAGE; $page <= self::MAX_PAGE; $page++) {
                 $response = $this->parser->parseByUserParams($userQuery, $page);
 
-                // TODO: product keys must be numeric to avoid overwriting.
                 $products = array_merge(
                     $products,
                     $this->converter->convert($response->getContent(), ($page - 1) * self::PER_PAGE)
