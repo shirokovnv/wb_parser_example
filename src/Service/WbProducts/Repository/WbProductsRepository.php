@@ -21,7 +21,7 @@ class WbProductsRepository implements WbProductsRepositoryInterface
 
     public function __construct()
     {
-        // TODO: bad practise. May be it's better to use direct inserts from clickhouse client
+        // TODO: bad practise.
         $this->table = WbProductsClickhouseTable::getInstance();
     }
 
