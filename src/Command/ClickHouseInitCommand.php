@@ -9,16 +9,14 @@ use Cake\Console\ConsoleIo;
 use Eggheads\CakephpClickHouse\ClickHouse;
 
 /**
- * ClickHouseInit command.
+ * Зона ответственности: Создание таблицы wbProducts.
  */
 class ClickHouseInitCommand extends AbstractClickhouseCommand
 {
     /**
-     * Implement this method with your command's logic.
-     *
-     * @param \Cake\Console\Arguments $args The command arguments.
-     * @param \Cake\Console\ConsoleIo $io The console io
-     * @return null|void|int The exit code or null for success
+     * @param Arguments $args
+     * @param ConsoleIo $io
+     * @return int|void|null
      */
     public function execute(Arguments $args, ConsoleIo $io)
     {
