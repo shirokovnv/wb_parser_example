@@ -28,11 +28,10 @@ class ClickHouseInitCommand extends AbstractClickhouseCommand
                 name String,
                 position UInt32,
                 brand String,
-                query String,
-                timestamp DateTime DEFAULT now()
+                query String
             )
             ENGINE = MergeTree()
-            PRIMARY KEY (position, timestamp);
+            ORDER BY (query, position);
         ', ['table_name' => self::TABLE_NAME]);
 
         $io->out(sprintf("Table %s created\r\n", self::TABLE_NAME));

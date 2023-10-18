@@ -11,7 +11,6 @@ use App\Service\WbProducts\Repository\WbProductsRepositoryInterface;
 use Cake\Console\Arguments;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
-use Cake\Log\Log;
 use Psr\Http\Client\ClientExceptionInterface;
 
 class ParseProductsCommand extends AbstractClickhouseCommand
