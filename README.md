@@ -22,7 +22,7 @@
 5. Run `make install` to install php dependencies
 6. Run `make up` to run application containers
 
-Visit `http://localhost:8080/`
+Visit `http://localhost/`
 
 **ClickHouse commands:**
 
