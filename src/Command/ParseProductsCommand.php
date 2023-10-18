@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace App\Command;
 
-use App\Service\WbProducts\Converter\Exception\ConvertException;
 use App\Service\WbProducts\Converter\WbProductsConverterInterface;
+use App\Service\WbProducts\Exception\WbProductsExceptionHandler;
 use App\Service\WbProducts\Parser\WbProductsParserInterface;
 use App\Service\WbProducts\Repository\WbProductsRepositoryInterface;
 use Cake\Console\Arguments;
 use Cake\Console\ConsoleIo;
 use Cake\Console\ConsoleOptionParser;
-use Psr\Http\Client\ClientExceptionInterface;
 
 /**
  * Зона отвественности: Парсинг товаров по поисковой фразе с search.wb.ru и сохранение их в ClickHouse (первые 1000 штук).
@@ -30,11 +29,13 @@ class ParseProductsCommand extends AbstractClickhouseCommand
      * @param WbProductsParserInterface $parser
      * @param WbProductsConverterInterface $converter
      * @param WbProductsRepositoryInterface $repository
+     * @param WbProductsExceptionHandler $exceptionHandler
      */
     public function __construct(
         private WbProductsParserInterface $parser,
         private WbProductsConverterInterface $converter,
-        private WbProductsRepositoryInterface $repository
+        private WbProductsRepositoryInterface $repository,
+        private WbProductsExceptionHandler $exceptionHandler
     ) {
     }
 
@@ -81,15 +82,9 @@ class ParseProductsCommand extends AbstractClickhouseCommand
 
             $this->repository->bulkInsert($products);
         } catch (\Throwable $exception) {
-            if ($exception instanceof ClientExceptionInterface) {
-                $this->log('Http client exception: ' . $exception->getMessage());
-            }
+            $userFriendlyException = $this->exceptionHandler->handle($exception);
 
-            if ($exception instanceof ConvertException) {
-                $this->log('Converter exception: ' . $exception->getMessage());
-            }
-
-            $io->error($exception->getMessage());
+            $io->error($userFriendlyException->getMessage());
 
             return self::CODE_ERROR;
         }

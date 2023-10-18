@@ -21,6 +21,7 @@ namespace App;
 use App\Command\ParseProductsCommand;
 use App\Service\WbProducts\Converter\WbProductsConverterInterface;
 use App\Service\WbProducts\Converter\WbProductsJsonConverter;
+use App\Service\WbProducts\Exception\WbProductsExceptionHandler;
 use App\Service\WbProducts\Parser\WbProductsParser;
 use App\Service\WbProducts\Parser\WbProductsParserInterface;
 use App\Service\WbProducts\Repository\WbProductsRepository;
@@ -34,10 +35,13 @@ use Cake\Http\Client;
 use Cake\Http\Middleware\BodyParserMiddleware;
 use Cake\Http\Middleware\CsrfProtectionMiddleware;
 use Cake\Http\MiddlewareQueue;
+use Cake\Log\Engine\FileLog;
+use Cake\Log\Log;
 use Cake\ORM\Locator\TableLocator;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
 use Psr\Http\Client\ClientInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * Application setup class.
@@ -129,12 +133,15 @@ class Application extends BaseApplication
         $container->add(WbProductsParserInterface::class, fn () => new WbProductsParser($container->get(ClientInterface::class)));
         $container->add(WbProductsConverterInterface::class, WbProductsJsonConverter::class);
         $container->add(WbProductsRepositoryInterface::class, WbProductsRepository::class);
+        $container->add(WbProductsExceptionHandler::class)
+            ->addArgument(Log::engine('error'));
         $container->add(ParseProductsCommand::class)
             ->addArguments(
                 [
                     $container->get(WbProductsParserInterface::class),
                     $container->get(WbProductsConverterInterface::class),
-                    $container->get(WbProductsRepositoryInterface::class)
+                    $container->get(WbProductsRepositoryInterface::class),
+                    $container->get(WbProductsExceptionHandler::class)
                 ]
             );
     }
