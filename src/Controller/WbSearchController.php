@@ -25,6 +25,8 @@ class WbSearchController extends AppController
         WbProductsExceptionHandler $exceptionHandler
     ) {
         $currentPage = (int) ($this->request->getQuery('page') ?? 1);
+        // Страница может находиться в диапазоне 1..10
+        $currentPage = max(1, min(10, $currentPage));
         $limit = 100;
         $offset = ($currentPage - 1) * $limit;
 
