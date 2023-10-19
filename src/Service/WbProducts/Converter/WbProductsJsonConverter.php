@@ -37,6 +37,10 @@ class WbProductsJsonConverter implements WbProductsConverterInterface
             throw new ConvertException(json_last_error_msg());
         }
 
+        if (empty($jsonData)) {
+            throw new ConvertException('Пустые данные.');
+        }
+
         $this->assertProductsKeyContainsArray($jsonData);
         $this->assertMetaKeyContainsQueryString($jsonData);
 
