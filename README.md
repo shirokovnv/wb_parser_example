@@ -58,6 +58,8 @@ bin/cake parse_products "QUERY STRING"
 1. Create `tmp` dir in project root folder
 2. Run `make test` for unit-testing.
 
+Tests use `mockery/mockery` and `fakerphp/faker` packages as dependencies.
+
 ## Help
 
 Run `make help` to see available commands.
