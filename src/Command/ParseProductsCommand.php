@@ -60,7 +60,7 @@ class ParseProductsCommand extends AbstractClickhouseCommand
     {
         $userQuery = trim((string) $args->getArgument(self::KEY_QUERY));
 
-        if (! $this->ensureUserInputIsValid($userQuery)) {
+        if (! $this->validateUserInput($userQuery)) {
             $io->error(
                 'Строка должна быть не пустой и может содержать только буквы латиницы или кириллицы, цифры и пробелы.'
             );
@@ -107,7 +107,7 @@ class ParseProductsCommand extends AbstractClickhouseCommand
      * @param string $userQuery
      * @return bool
      */
-    private function ensureUserInputIsValid(string $userQuery): bool
+    private function validateUserInput(string $userQuery): bool
     {
         // Латиница, кириллица, цифры и пробелы
         return (bool) preg_match("/^([0-9a-zA-Zа-яёЁА-Я ]+)$/iu", $userQuery);
