@@ -131,7 +131,7 @@ class Application extends BaseApplication
      */
     public function services(ContainerInterface $container): void
     {
-        // TODO: May be better to use specific config for the wildberries http client
+        // TODO: Возможно, лучшим решением было бы ограничить scope клиента, напр. new Client(['base_url' => 'search.wb.ru']);
         $container->add(ClientInterface::class, Client::class);
         $container->add(WbProductsParserInterface::class, fn () => new WbProductsParser($container->get(ClientInterface::class)));
         $container->add(WbProductsConverterInterface::class, WbProductsJsonConverter::class);

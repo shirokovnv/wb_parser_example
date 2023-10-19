@@ -43,7 +43,7 @@ class WbProductsJsonConverter implements WbProductsConverterInterface
         $products = $jsonData[self::KEY_DATA][self::KEY_PRODUCTS];
         $query = (string) $jsonData[self::KEY_META][self::KEY_NAME];
 
-        // TODO: what if fields are nullable ? OR we don't find field keys ?
+        // TODO: Что, если поля NULLABLE ? Или мы не нашли нужных ключей в массиве ?
         return array_map(
             fn (array $product, int $index) => new WbProductEntity(
                 $product['name'] ?? '',

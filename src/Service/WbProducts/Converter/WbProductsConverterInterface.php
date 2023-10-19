@@ -13,7 +13,8 @@ interface WbProductsConverterInterface
      * @param int $startIndex
      *
      * @return array<WbProductEntity>
-     * TODO: why we use mixed as a type here ? It's some kind of extension point, for different implementations.
+     *
+     * Конвертер на входе принимает любые "сырые данные" и перерабатывает их в массив структур WbProductEntity.
      */
     public function convert(mixed $rawData, int $startIndex = 1): array;
 }

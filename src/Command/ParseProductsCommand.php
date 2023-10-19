@@ -69,6 +69,9 @@ class ParseProductsCommand extends AbstractClickhouseCommand
         $products = [];
 
         try {
+            // TODO: Здесь мы последовательно запрашиваем 10 страниц с внешнего источника.
+            // Подход: все или ничего, либо получаем всю 1000 товаров и записываем их, либо нет.
+            // Возможной оптимизацией является использование внешней зависимости Guzzle/Promises с асинхронным вызовом.
             for ($page = self::MIN_PAGE; $page <= self::MAX_PAGE; $page++) {
                 $response = $this->parser->parseByUserParams($userQuery, $page);
 
