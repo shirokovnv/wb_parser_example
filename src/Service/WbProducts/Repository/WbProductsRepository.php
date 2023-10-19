@@ -15,14 +15,10 @@ use Eggheads\CakephpClickHouse\Exception\FieldNotFoundException;
 class WbProductsRepository implements WbProductsRepositoryInterface
 {
     /**
-     * @var WbProductsClickhouseTable
+     * @param WbProductsClickhouseTable $table
      */
-    private WbProductsClickhouseTable $table;
-
-    public function __construct()
+    public function __construct(private WbProductsClickhouseTable $table)
     {
-        // TODO: bad practise.
-        $this->table = WbProductsClickhouseTable::getInstance();
     }
 
     /**

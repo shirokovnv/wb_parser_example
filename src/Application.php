@@ -21,6 +21,7 @@ namespace App;
 use App\Command\ClickHouseDropCommand;
 use App\Command\ClickHouseInitCommand;
 use App\Command\ParseProductsCommand;
+use App\Model\Table\WbProductsClickhouseTable;
 use App\Service\WbProducts\Converter\WbProductsConverterInterface;
 use App\Service\WbProducts\Converter\WbProductsJsonConverter;
 use App\Service\WbProducts\Exception\WbProductsExceptionHandler;
@@ -135,7 +136,8 @@ class Application extends BaseApplication
         $container->add(ClientInterface::class, Client::class);
         $container->add(WbProductsParserInterface::class, fn () => new WbProductsParser($container->get(ClientInterface::class)));
         $container->add(WbProductsConverterInterface::class, WbProductsJsonConverter::class);
-        $container->add(WbProductsRepositoryInterface::class, WbProductsRepository::class);
+        $container->add(WbProductsRepositoryInterface::class, WbProductsRepository::class)
+            ->addArgument(WbProductsClickhouseTable::getInstance());
         $container->add(WbProductsExceptionHandler::class)
             ->addArgument(Log::engine('error'));
         $container->add(ParseProductsCommand::class)
