@@ -53,6 +53,10 @@ bin/cake click_house_drop
 bin/cake parse_products "QUERY STRING"
 ```
 
+## Test
+
+Run `make test` for unit-testing.
+
 ## Help
 
 Run `make help` to see available commands.

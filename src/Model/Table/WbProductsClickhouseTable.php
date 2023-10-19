@@ -8,7 +8,7 @@ use App\Service\WbProducts\DTO\WbProductEntity;
 use Eggheads\CakephpClickHouse\AbstractClickHouseTable;
 use Eggheads\CakephpClickHouse\Exception\FieldNotFoundException;
 
-class WbProductsClickhouseTable extends AbstractClickHouseTable
+class WbProductsClickhouseTable extends AbstractClickHouseTable implements WbProductsTableInterface
 {
     public const TABLE = 'wbProducts'; // указывать, если имя таблицы отличается от *ClickHouseTable
     public const WRITER_CONFIG = 'default'; // указывать в случае необходимости записи в таблицу
@@ -21,8 +21,9 @@ class WbProductsClickhouseTable extends AbstractClickHouseTable
      * @return void
      *
      * @throws FieldNotFoundException
+     * @throws \Exception
      */
-    public function transactionalInsert(array $products): void
+    public function bulkInsert(array $products): void
     {
         $transaction = $this->createTransaction();
 

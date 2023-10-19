@@ -4,40 +4,18 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Command;
 
-use Cake\TestSuite\ConsoleIntegrationTestTrait;
-use Cake\TestSuite\TestCase;
+use Cake\Console\CommandInterface;
 
 /**
  * App\Command\ClickHouseDropCommand Test Case
  *
  * @uses \App\Command\ClickHouseDropCommand
+ *
+ * @group console
+ * @group wbProducts
  */
-class ClickHouseDropCommandTest extends TestCase
+class ClickHouseDropCommandTest extends AbstractClickHouseCommandTestCase
 {
-    use ConsoleIntegrationTestTrait;
-
-    /**
-     * setUp method
-     *
-     * @return void
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->useCommandRunner();
-    }
-
-    /**
-     * Test buildOptionParser method
-     *
-     * @return void
-     * @uses \App\Command\ClickHouseDropCommand::buildOptionParser()
-     */
-    public function testBuildOptionParser(): void
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
     /**
      * Test execute method
      *
@@ -46,6 +24,8 @@ class ClickHouseDropCommandTest extends TestCase
      */
     public function testExecute(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->exec('click_house_drop');
+        $this->assertOutputContains('Table wbProducts dropped');
+        $this->assertExitCode(CommandInterface::CODE_SUCCESS);
     }
 }

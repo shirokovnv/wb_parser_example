@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\WbProducts\Repository;
 
-use App\Model\Table\WbProductsClickhouseTable;
+use App\Model\Table\WbProductsTableInterface;
 use App\Service\WbProducts\DTO\WbProductEntity;
 use ClickHouseDB\Exception\QueryException;
 use Eggheads\CakephpClickHouse\Exception\FieldNotFoundException;
@@ -15,9 +15,9 @@ use Eggheads\CakephpClickHouse\Exception\FieldNotFoundException;
 class WbProductsRepository implements WbProductsRepositoryInterface
 {
     /**
-     * @param WbProductsClickhouseTable $table
+     * @param WbProductsTableInterface $table
      */
-    public function __construct(private WbProductsClickhouseTable $table)
+    public function __construct(private WbProductsTableInterface $table)
     {
     }
 
@@ -29,7 +29,7 @@ class WbProductsRepository implements WbProductsRepositoryInterface
      */
     public function bulkInsert(array $products): void
     {
-        $this->table->transactionalInsert($products);
+        $this->table->bulkInsert($products);
     }
 
     /**

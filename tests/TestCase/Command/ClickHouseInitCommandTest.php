@@ -4,40 +4,18 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Command;
 
-use Cake\TestSuite\ConsoleIntegrationTestTrait;
-use Cake\TestSuite\TestCase;
+use Cake\Console\CommandInterface;
 
 /**
  * App\Command\ClickHouseInitCommand Test Case
  *
  * @uses \App\Command\ClickHouseInitCommand
+ *
+ * @group console
+ * @group wbProducts
  */
-class ClickHouseInitCommandTest extends TestCase
+class ClickHouseInitCommandTest extends AbstractClickHouseCommandTestCase
 {
-    use ConsoleIntegrationTestTrait;
-
-    /**
-     * setUp method
-     *
-     * @return void
-     */
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->useCommandRunner();
-    }
-
-    /**
-     * Test buildOptionParser method
-     *
-     * @return void
-     * @uses \App\Command\ClickHouseInitCommand::buildOptionParser()
-     */
-    public function testBuildOptionParser(): void
-    {
-        $this->markTestIncomplete('Not implemented yet.');
-    }
-
     /**
      * Test execute method
      *
@@ -46,6 +24,8 @@ class ClickHouseInitCommandTest extends TestCase
      */
     public function testExecute(): void
     {
-        $this->markTestIncomplete('Not implemented yet.');
+        $this->exec('click_house_init');
+        $this->assertOutputContains('Table wbProducts created');
+        $this->assertExitCode(CommandInterface::CODE_SUCCESS);
     }
 }

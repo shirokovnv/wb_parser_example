@@ -21,6 +21,7 @@ namespace App;
 use App\Command\ClickHouseDropCommand;
 use App\Command\ClickHouseInitCommand;
 use App\Command\ParseProductsCommand;
+use App\Contracts\ClickHouseClientContract;
 use App\Model\Table\WbProductsClickhouseTable;
 use App\Service\WbProducts\Converter\WbProductsConverterInterface;
 use App\Service\WbProducts\Converter\WbProductsSearchConverter;
@@ -38,14 +39,12 @@ use Cake\Http\Client;
 use Cake\Http\Middleware\BodyParserMiddleware;
 use Cake\Http\Middleware\CsrfProtectionMiddleware;
 use Cake\Http\MiddlewareQueue;
-use Cake\Log\Engine\FileLog;
 use Cake\Log\Log;
 use Cake\ORM\Locator\TableLocator;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
 use Eggheads\CakephpClickHouse\ClickHouse;
 use Psr\Http\Client\ClientInterface;
-use Psr\Log\LoggerInterface;
 
 /**
  * Application setup class.
@@ -149,10 +148,12 @@ class Application extends BaseApplication
                     $container->get(WbProductsExceptionHandler::class)
                 ]
             );
+
+        $container->add(ClickHouseClientContract::class, ClickHouse::getInstance()->getClient());
         $container->add(ClickHouseInitCommand::class)
-            ->addArgument(ClickHouse::getInstance()->getClient());
+            ->addArgument($container->get(ClickHouseClientContract::class));
         $container->add(ClickHouseDropCommand::class)
-            ->addArgument(ClickHouse::getInstance()->getClient());
+            ->addArgument($container->get(ClickHouseClientContract::class));
     }
 
     /**

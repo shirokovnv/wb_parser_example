@@ -23,8 +23,10 @@
         "cakephp/bake": "^2.8",
         "cakephp/cakephp-codesniffer": "^4.5",
         "cakephp/debug_kit": "^4.9",
+        "fakerphp/faker": "^1.23",
         "friendsofphp/php-cs-fixer": "^3.35",
         "josegonzalez/dotenv": "^4.0",
+        "mockery/mockery": "^1.6",
         "phpunit/phpunit": "^9.6"
     },
     "suggest": {
