@@ -26,7 +26,7 @@ class ClickHouseInitCommand extends AbstractClickhouseCommand
                 brand String,
                 query String
             )
-            ENGINE = MergeTree()
+            ENGINE = ReplacingMergeTree()
             ORDER BY (query, position);
         ', ['table_name' => self::TABLE_NAME]);
 
