@@ -58,7 +58,7 @@ class ParseProductsCommand extends AbstractClickhouseCommand
      */
     public function execute(Arguments $args, ConsoleIo $io)
     {
-        $userQuery = $args->getArgument(self::KEY_QUERY);
+        $userQuery = trim((string) $args->getArgument(self::KEY_QUERY));
 
         if (! $this->ensureUserInputIsValid($userQuery)) {
             $io->error(
