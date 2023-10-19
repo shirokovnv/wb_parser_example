@@ -1,5 +1,12 @@
 # Wildberries Parser Skeleton
 
+Application for parsing catalog items from `search.wb.ru`
+
+Contains:
+
+1. Console command for parsing 1000 items per iteration and saving into ClickHouse.
+2. User-Form and Table View for visualizing data from ClickHouse.
+
 ## Dependencies
 
 - [Docker][link-docker]
@@ -24,17 +31,35 @@
 
 Visit `http://localhost/`
 
-**ClickHouse commands:**
+## ClickHouse Commands
 
-1. Run `make shell` to enter inside php-app
-2. Run `bin/cake click_house_init` to create DB table
-3. Run `bin/cake click_house_drop` to drop DB table
+Run `make shell` to enter inside php-app container
 
-Run `bin/cake parse_products "%query string%"` for parsing and saving products. (_WARNING:_ can be cache folder permission errors)
+1. Create Table:
 
-Run `make down` to shutting down application containers.
+```bash
+bin/cake click_house_init
+```
+
+2. Drop Table:
+
+```bash
+bin/cake click_house_drop
+```
+
+3. Parse products:
+
+```bash
+bin/cake parse_products "QUERY STRING"
+```
+
+## Help
 
 Run `make help` to see available commands.
+
+## Shutdown
+
+Run `make down` for shutting down application containers.
 
 ## License
 
