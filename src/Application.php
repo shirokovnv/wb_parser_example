@@ -23,7 +23,7 @@ use App\Command\ClickHouseInitCommand;
 use App\Command\ParseProductsCommand;
 use App\Model\Table\WbProductsClickhouseTable;
 use App\Service\WbProducts\Converter\WbProductsConverterInterface;
-use App\Service\WbProducts\Converter\WbSearchProductsConverter;
+use App\Service\WbProducts\Converter\WbProductsSearchConverter;
 use App\Service\WbProducts\Exception\WbProductsExceptionHandler;
 use App\Service\WbProducts\Parser\WbProductsParser;
 use App\Service\WbProducts\Parser\WbProductsParserInterface;
@@ -135,7 +135,7 @@ class Application extends BaseApplication
         // TODO: Возможно, лучшим решением было бы ограничить scope клиента, напр. new Client(['base_url' => 'search.wb.ru']);
         $container->add(ClientInterface::class, Client::class);
         $container->add(WbProductsParserInterface::class, fn () => new WbProductsParser($container->get(ClientInterface::class)));
-        $container->add(WbProductsConverterInterface::class, WbSearchProductsConverter::class);
+        $container->add(WbProductsConverterInterface::class, WbProductsSearchConverter::class);
         $container->add(WbProductsRepositoryInterface::class, WbProductsRepository::class)
             ->addArgument(WbProductsClickhouseTable::getInstance());
         $container->add(WbProductsExceptionHandler::class)

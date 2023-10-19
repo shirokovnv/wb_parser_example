@@ -10,7 +10,7 @@ use App\Service\WbProducts\DTO\WbProductEntity;
 /**
  * Зона ответственности: преобразование сырых (строковый JSON c search.wb.ru) данных товаров в массив DTO WbProductEntity;
  */
-class WbSearchProductsConverter implements WbProductsConverterInterface
+class WbProductsSearchConverter implements WbProductsConverterInterface
 {
     private const KEY_DATA = 'data';
 
