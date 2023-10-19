@@ -31,7 +31,7 @@ class WbSearchController extends AppController
         $offset = ($currentPage - 1) * $limit;
 
         try {
-            [$wbProductsSearch, $userQuery, $errorMessage] = $this->processFormLogic();
+            [$productSearchForm, $userQuery, $errorMessage] = $this->processFormLogic();
             $products = $this->processProductSearchQuery($repository, $userQuery, $limit, $offset);
 
         } catch (\Throwable $exception) {
@@ -39,7 +39,7 @@ class WbSearchController extends AppController
             $this->log($exception->getMessage());
 
             $errorMessage = $exceptionHandler->handle($exception)->getMessage();
-            $wbProductsSearch = new WbProductsSearchForm();
+            $productSearchForm = new WbProductsSearchForm();
             $products = null;
             $userQuery = null;
         }
@@ -48,7 +48,7 @@ class WbSearchController extends AppController
             $this->Flash->error($errorMessage);
         }
 
-        $this->set('wbProductsSearch', $wbProductsSearch);
+        $this->set('productSearchForm', $productSearchForm);
         $this->set('products', $products);
         $this->set('userQuery', $userQuery);
         $this->set('currentPage', $currentPage);
@@ -88,18 +88,18 @@ class WbSearchController extends AppController
      */
     private function processFormLogic(): array
     {
-        $wbProductsSearch = new WbProductsSearchForm();
+        $productSearchForm = new WbProductsSearchForm();
         $query = $this->request->getQuery('query');
         $errorMessage = null;
 
         if ($this->request->is('post')) {
-            if ($wbProductsSearch->execute($this->request->getData())) {
-                $query = (string) $wbProductsSearch->getData('query');
+            if ($productSearchForm->execute($this->request->getData())) {
+                $query = (string) $productSearchForm->getData('query');
             } else {
                 $errorMessage = 'Возникла проблема с формой.';
             }
         }
 
-        return [$wbProductsSearch, $query, $errorMessage];
+        return [$productSearchForm, $query, $errorMessage];
     }
 }
