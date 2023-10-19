@@ -29,7 +29,7 @@ class WbSearchController extends AppController
         $offset = ($currentPage - 1) * $limit;
 
         try {
-            [$wbProductsSearch, $userQuery, $errorMessage] = $this->processFormLogic($repository);
+            [$wbProductsSearch, $userQuery, $errorMessage] = $this->processFormLogic();
             $products = $this->processProductSearchQuery($repository, $userQuery, $limit, $offset);
 
         } catch (\Throwable $exception) {
@@ -40,7 +40,6 @@ class WbSearchController extends AppController
             $wbProductsSearch = new WbProductsSearchForm();
             $products = null;
             $userQuery = null;
-            $currentPage = 1;
         }
 
         if ($errorMessage !== null) {
@@ -83,11 +82,9 @@ class WbSearchController extends AppController
     }
 
     /**
-     * @param WbProductsRepositoryInterface $repository
-     *
      * @return array{0: WbProductsSearchForm, 1: string|null, 2: string|null}
      */
-    private function processFormLogic(WbProductsRepositoryInterface $repository): array
+    private function processFormLogic(): array
     {
         $wbProductsSearch = new WbProductsSearchForm();
         $query = $this->request->getQuery('query');
