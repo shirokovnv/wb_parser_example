@@ -34,14 +34,21 @@ class WbProductsRepository implements WbProductsRepositoryInterface
 
     /**
      * @param string $query
+     * @param int $limit
+     * @param int $offset
      * @return array<WbProductEntity>
-     *
-     * @throws QueryException
      */
-    public function getByQueryString(string $query): array
+    public function getByQueryString(string $query, int $limit = 1000, int $offset = 0): array
     {
         $rows = $this->table
-            ->select('SELECT * FROM wbProducts WHERE query = :query', ['query' => $query])
+            ->select(
+                'SELECT `name`, `brand`, `position`, `query` FROM wbProducts WHERE query = :query LIMIT :limit OFFSET :offset',
+                [
+                    'query' => $query,
+                    'limit' => $limit,
+                    'offset' => $offset,
+                ]
+            )
             ->rows();
 
         return array_map(

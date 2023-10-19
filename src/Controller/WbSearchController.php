@@ -24,10 +24,14 @@ class WbSearchController extends AppController
         WbProductsRepositoryInterface $repository,
         WbProductsExceptionHandler $exceptionHandler
     ) {
-        $errorMessage = '';
+        $currentPage = (int) ($this->request->getQuery('page') ?? 1);
+        $limit = 100;
+        $offset = ($currentPage - 1) * $limit;
 
         try {
-            [$wbProductsSearch, $products] = $this->processFormLogic($repository);
+            [$wbProductsSearch, $userQuery, $errorMessage] = $this->processFormLogic($repository);
+            $products = $this->processProductSearchQuery($repository, $userQuery, $limit, $offset);
+
         } catch (\Throwable $exception) {
             // Log original exception
             $this->log($exception->getMessage());
@@ -35,41 +39,68 @@ class WbSearchController extends AppController
             $errorMessage = $exceptionHandler->handle($exception)->getMessage();
             $wbProductsSearch = new WbProductsSearchForm();
             $products = null;
+            $userQuery = null;
+            $currentPage = 1;
         }
 
-        if ($errorMessage !== '') {
+        if ($errorMessage !== null) {
             $this->Flash->error($errorMessage);
         }
 
         $this->set('wbProductsSearch', $wbProductsSearch);
         $this->set('products', $products);
+        $this->set('userQuery', $userQuery);
+        $this->set('currentPage', $currentPage);
+    }
+
+    /**
+     * @param WbProductsRepositoryInterface $repository
+     * @param string|null $query
+     * @param int $limit
+     * @param int $offset
+     *
+     * @return WbProductEntity[]|null
+     */
+    private function processProductSearchQuery(
+        WbProductsRepositoryInterface $repository,
+        ?string $query,
+        int $limit,
+        int $offset
+    ): ?array {
+        if ($query !== null) {
+            $products = $repository->getByQueryString($query, $limit, $offset);
+
+            if (count($products) > 0) {
+                $this->Flash->success('Найдены результаты поиска.');
+            } else {
+                $this->Flash->info('Ничего не найдено.');
+            }
+
+            return $products;
+        }
+
+        return null;
     }
 
     /**
      * @param WbProductsRepositoryInterface $repository
      *
-     * @return array{0: WbProductsSearchForm, 1: array<WbProductEntity>|null}
+     * @return array{0: WbProductsSearchForm, 1: string|null, 2: string|null}
      */
     private function processFormLogic(WbProductsRepositoryInterface $repository): array
     {
         $wbProductsSearch = new WbProductsSearchForm();
-        $products = null;
+        $query = $this->request->getQuery('query');
+        $errorMessage = null;
 
         if ($this->request->is('post')) {
             if ($wbProductsSearch->execute($this->request->getData())) {
                 $query = (string) $wbProductsSearch->getData('query');
-                $products = $repository->getByQueryString($query);
-
-                if (count($products) > 0) {
-                    $this->Flash->success('Найдены результаты поиска.');
-                } else {
-                    $this->Flash->info('Ничего не найдено.');
-                }
             } else {
-                $this->Flash->error('Возникла проблема с формой.');
+                $errorMessage = 'Возникла проблема с формой.';
             }
         }
 
-        return [$wbProductsSearch, $products];
+        return [$wbProductsSearch, $query, $errorMessage];
     }
 }
