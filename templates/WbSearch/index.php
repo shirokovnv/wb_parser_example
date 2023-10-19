@@ -1,7 +1,7 @@
 <?php
 
 echo $this->Form->create($wbProductsSearch, ['action' => '/wbSearch', 'method' => 'POST']);
-echo $this->Form->control('query', ['label' => 'Фраза', 'value' => htmlentities($userQuery) ]);
+echo $this->Form->control('query', ['label' => 'Фраза', 'value' => htmlentities( (string) $userQuery ) ]);
 echo $this->Form->button('Поиск', ['style' => 'color: white; border-color: #5741e9; background-color: #5741e9;']);
 echo $this->Form->end();
 
