@@ -55,7 +55,8 @@ bin/cake parse_products "QUERY STRING"
 
 ## Test
 
-Run `make test` for unit-testing.
+1. Create `tmp` dir in project root folder
+2. Run `make test` for unit-testing.
 
 ## Help
 
