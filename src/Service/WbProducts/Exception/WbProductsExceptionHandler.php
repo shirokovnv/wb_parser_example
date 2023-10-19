@@ -5,6 +5,11 @@ declare(strict_types=1);
 namespace App\Service\WbProducts\Exception;
 
 use App\Service\WbProducts\Converter\Exception\ConvertException;
+use App\Service\WbProducts\Exception\Handlers\AbstractExceptionHandler;
+use App\Service\WbProducts\Exception\Handlers\ClickHouseExceptionHandler;
+use App\Service\WbProducts\Exception\Handlers\ClientExceptionHandler;
+use App\Service\WbProducts\Exception\Handlers\ConvertExceptionHandler;
+use App\Service\WbProducts\Exception\Handlers\DefaultExceptionHandler;
 use ClickHouseDB\Exception\QueryException;
 use Eggheads\CakephpClickHouse\Exception\FieldNotFoundException;
 use Psr\Http\Client\ClientExceptionInterface;
@@ -16,24 +21,6 @@ use Psr\Log\LogLevel;
  */
 class WbProductsExceptionHandler
 {
-    private const CLIENT_ERROR_CODES = [
-        401 => 'Требуется аутентификация.',
-        403 => 'Ошибка авторизации.',
-        422 => 'Ошибка в поисковой фразе.',
-        429 => 'Слишком много запросов к сервису search.wb.ru. Попробуйте позже.',
-        500 => 'Ошибка сервера.',
-        502 => 'Сервис search.wb.ru не доступен.',
-        503 => 'Сервис search.wb.ru не ответил вовремя.',
-    ];
-
-    private const DEFAULT_CLIENT_ERROR_MSG = 'Ошибка работы с сервисом search.wb.ru';
-
-    private const DEFAULT_CONVERT_ERROR_MSG = 'Ошибка конвертации данных: ';
-
-    private const DEFAULT_CLICKHOUSE_ERROR_MSG = 'Ошибка при работе с ClickHouse: ';
-
-    private const DEFAULT_ERROR_MSG = 'Неизвестная ошибка';
-
     /**
      * @param LoggerInterface $logger
      */
@@ -51,24 +38,23 @@ class WbProductsExceptionHandler
         $this->logger->log(LogLevel::ERROR, $exception->getMessage());
 
         // Map exception to User-Friendly exception
-        $message = $this->mapExceptionMessage($exception);
+        $handler = $this->createHandlerFor($exception);
 
-        return new UserFriendlyException($message, $exception->getCode(), $exception);
+        return $handler->handle($exception);
     }
 
     /**
      * @param \Throwable $exception
-     * @return string
+     * @return AbstractExceptionHandler
      */
-    private function mapExceptionMessage(\Throwable $exception): string
+    private function createHandlerFor(\Throwable $exception): AbstractExceptionHandler
     {
         return match(true) {
-            $exception instanceof ClientExceptionInterface =>
-                self::CLIENT_ERROR_CODES[$exception->getCode()] ?? self::DEFAULT_CLIENT_ERROR_MSG,
-            $exception instanceof ConvertException => self::DEFAULT_CONVERT_ERROR_MSG . $exception->getMessage(),
+            $exception instanceof ClientExceptionInterface => new ClientExceptionHandler(),
+            $exception instanceof ConvertException => new ConvertExceptionHandler(),
             $exception instanceof QueryException ||
-            $exception instanceof FieldNotFoundException => self::DEFAULT_CLICKHOUSE_ERROR_MSG . $exception->getMessage(),
-            default => self::DEFAULT_ERROR_MSG
+            $exception instanceof FieldNotFoundException => new ClickHouseExceptionHandler(),
+            default => new DefaultExceptionHandler()
         };
     }
 }
