@@ -6,7 +6,6 @@ namespace App\Command;
 
 use Cake\Console\Arguments;
 use Cake\Console\ConsoleIo;
-use Eggheads\CakephpClickHouse\ClickHouse;
 
 /**
  * Зона ответственности: Создание таблицы wbProducts.
@@ -20,9 +19,7 @@ class ClickHouseInitCommand extends AbstractClickhouseCommand
      */
     public function execute(Arguments $args, ConsoleIo $io)
     {
-        // TODO: dependency injection needed ?
-        $client = ClickHouse::getInstance()->getClient();
-        $client->write('
+        $this->clickHouseClient->write('
             CREATE TABLE IF NOT EXISTS {table_name} (
                 name String,
                 position UInt32,

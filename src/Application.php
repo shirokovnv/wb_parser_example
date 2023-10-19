@@ -18,6 +18,8 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Command\ClickHouseDropCommand;
+use App\Command\ClickHouseInitCommand;
 use App\Command\ParseProductsCommand;
 use App\Service\WbProducts\Converter\WbProductsConverterInterface;
 use App\Service\WbProducts\Converter\WbProductsJsonConverter;
@@ -40,6 +42,7 @@ use Cake\Log\Log;
 use Cake\ORM\Locator\TableLocator;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
+use Eggheads\CakephpClickHouse\ClickHouse;
 use Psr\Http\Client\ClientInterface;
 use Psr\Log\LoggerInterface;
 
@@ -144,6 +147,10 @@ class Application extends BaseApplication
                     $container->get(WbProductsExceptionHandler::class)
                 ]
             );
+        $container->add(ClickHouseInitCommand::class)
+            ->addArgument(ClickHouse::getInstance()->getClient());
+        $container->add(ClickHouseDropCommand::class)
+            ->addArgument(ClickHouse::getInstance()->getClient());
     }
 
     /**
