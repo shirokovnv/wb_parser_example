@@ -20,5 +20,5 @@ interface WbProductsRepositoryInterface
      * @param int $offset
      * @return array<WbProductEntity>
      */
-    public function getByQueryString(string $query, int $limit = 1000, int $offset): array;
+    public function getByQueryString(string $query, int $limit = 1000, int $offset = 0): array;
 }
