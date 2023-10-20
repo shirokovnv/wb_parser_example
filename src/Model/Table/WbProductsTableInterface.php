@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use App\Service\WbProducts\DTO\WbProductEntity;
+use App\Service\WbProducts\Entity\Product;
 use Eggheads\CakephpClickHouse\ClickHouseTableInterface;
 
 interface WbProductsTableInterface extends ClickHouseTableInterface
 {
     /**
-     * @param array<WbProductEntity> $products
+     * @param array<Product> $products
      * @return void
      */
     public function bulkInsert(array $products): void;

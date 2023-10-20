@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Service\WbProducts\Converter;
 
 use App\Service\WbProducts\Converter\Exception\ConvertException;
-use App\Service\WbProducts\DTO\WbProductEntity;
+use App\Service\WbProducts\Entity\Product;
 
 /**
- * Зона ответственности: преобразование сырых (строковый JSON c search.wb.ru) данных товаров в массив DTO WbProductEntity;
+ * Зона ответственности: преобразование сырых (строковый JSON c search.wb.ru) данных товаров в массив DTO Product;
  */
 class WbProductsSearchConverter implements WbProductsConverterInterface
 {
@@ -23,7 +23,7 @@ class WbProductsSearchConverter implements WbProductsConverterInterface
     /**
      * @param mixed $rawData
      * @param int $startIndex
-     * @return array<WbProductEntity>
+     * @return array<Product>
      *
      * @throws ConvertException
      */
@@ -49,7 +49,7 @@ class WbProductsSearchConverter implements WbProductsConverterInterface
 
         // TODO: Что, если поля NULLABLE ? Или мы не нашли нужных ключей в массиве ?
         return array_map(
-            fn (array $product, int $index) => new WbProductEntity(
+            fn (array $product, int $index) => new Product(
                 $product['name'] ?? '',
                 $product['brand'] ?? '',
                 $startIndex + $index + 1,

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Test\TestCase\Service\WbProducts\Converter;
 
 use App\Service\WbProducts\Converter\Exception\ConvertException;
-use App\Service\WbProducts\DTO\WbProductEntity;
+use App\Service\WbProducts\Entity\Product;
 use App\Test\Mocks\WbProductsEndpoint\Providers\WbProductsConverterProvider;
 use PHPUnit\Framework\TestCase;
 
@@ -32,7 +32,7 @@ class WbProductsSearchConverterTest extends TestCase
         $this->assertIsArray($productArr);
 
         foreach ($productArr as $productEntity) {
-            $this->assertInstanceOf(WbProductEntity::class, $productEntity);
+            $this->assertInstanceOf(Product::class, $productEntity);
         }
     }
 

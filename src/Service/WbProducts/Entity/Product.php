@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Service\WbProducts\DTO;
+namespace App\Service\WbProducts\Entity;
 
-class WbProductEntity
+class Product
 {
     /**
      * @param string $name

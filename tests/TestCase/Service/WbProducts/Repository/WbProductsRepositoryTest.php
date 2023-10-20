@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Service\WbProducts\Repository;
 
-use App\Service\WbProducts\DTO\WbProductEntity;
+use App\Service\WbProducts\Entity\Product;
 use App\Test\Mocks\ClickHouse\ClickHouseTableProvider;
 use App\Test\Mocks\WbProductsEndpoint\Providers\ProductProvider;
 use App\Test\Mocks\WbProductsEndpoint\Providers\WbProductsRepositoryProvider;
@@ -53,7 +53,7 @@ class WbProductsRepositoryTest extends AbstractWithFakerTestCase
 
         $this->assertCount($count, $productEntities);
         foreach($productEntities as $productEntity) {
-            $this->assertInstanceOf(WbProductEntity::class, $productEntity);
+            $this->assertInstanceOf(Product::class, $productEntity);
             $this->assertEquals($userQuery, $productEntity->getQuery());
         }
     }

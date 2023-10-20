@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Service\WbProducts\Repository;
 
 use App\Model\Table\WbProductsTableInterface;
-use App\Service\WbProducts\DTO\WbProductEntity;
+use App\Service\WbProducts\Entity\Product;
 use ClickHouseDB\Exception\QueryException;
 use Eggheads\CakephpClickHouse\Exception\FieldNotFoundException;
 
@@ -22,7 +22,7 @@ class WbProductsRepository implements WbProductsRepositoryInterface
     }
 
     /**
-     * @param array<WbProductEntity> $products
+     * @param array<Product> $products
      * @return void
      *
      * @throws FieldNotFoundException|QueryException
@@ -36,7 +36,7 @@ class WbProductsRepository implements WbProductsRepositoryInterface
      * @param string $query
      * @param int $limit
      * @param int $offset
-     * @return array<WbProductEntity>
+     * @return array<Product>
      */
     public function getByQueryString(string $query, int $limit = 1000, int $offset = 0): array
     {
@@ -52,7 +52,7 @@ class WbProductsRepository implements WbProductsRepositoryInterface
             ->rows();
 
         return array_map(
-            fn (array $row) => new WbProductEntity($row['name'], $row['brand'], $row['position'], $row['query']),
+            fn (array $row) => new Product($row['name'], $row['brand'], $row['position'], $row['query']),
             $rows
         );
     }

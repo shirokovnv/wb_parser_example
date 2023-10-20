@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Form\WbProductsSearchForm;
-use App\Service\WbProducts\DTO\WbProductEntity;
+use App\Service\WbProducts\Entity\Product;
 use App\Service\WbProducts\Exception\WbProductsExceptionHandler;
 use App\Service\WbProducts\Repository\WbProductsRepositoryInterface;
 
@@ -60,7 +60,7 @@ class WbSearchController extends AppController
      * @param int $limit
      * @param int $offset
      *
-     * @return WbProductEntity[]|null
+     * @return Product[]|null
      */
     private function processProductSearchQuery(
         WbProductsRepositoryInterface $repository,

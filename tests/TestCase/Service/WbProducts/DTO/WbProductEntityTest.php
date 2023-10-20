@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Service\WbProducts\DTO;
 
-use App\Service\WbProducts\DTO\WbProductEntity;
+use App\Service\WbProducts\Entity\Product;
 use App\Test\TestCase\AbstractWithFakerTestCase;
 
 /**
- * @covers \App\Service\WbProducts\DTO\WbProductEntity
+ * @covers \App\Service\WbProducts\Entity\Product
  *
  * @group service
  * @group wbProducts
@@ -20,7 +20,7 @@ class WbProductEntityTest extends AbstractWithFakerTestCase
      */
     public function testGetters(): void
     {
-        $product = new WbProductEntity(
+        $product = new Product(
             $name = $this->faker->name,
             $brand = $this->faker->name,
             $position = $this->faker->randomNumber(),

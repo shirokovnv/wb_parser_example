@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Service\WbProducts\Repository;
 
-use App\Service\WbProducts\DTO\WbProductEntity;
+use App\Service\WbProducts\Entity\Product;
 
 interface WbProductsRepositoryInterface
 {
     /**
-     * @param array<WbProductEntity> $products
+     * @param array<Product> $products
      * @return void
      */
     public function bulkInsert(array $products): void;
@@ -18,7 +18,7 @@ interface WbProductsRepositoryInterface
      * @param string $query
      * @param int $limit
      * @param int $offset
-     * @return array<WbProductEntity>
+     * @return array<Product>
      */
     public function getByQueryString(string $query, int $limit = 1000, int $offset = 0): array;
 }

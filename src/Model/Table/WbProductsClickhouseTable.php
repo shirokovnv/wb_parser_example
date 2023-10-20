@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use App\Service\WbProducts\DTO\WbProductEntity;
+use App\Service\WbProducts\Entity\Product;
 use Eggheads\CakephpClickHouse\AbstractClickHouseTable;
 use Eggheads\CakephpClickHouse\Exception\FieldNotFoundException;
 
@@ -17,7 +17,7 @@ class WbProductsClickhouseTable extends AbstractClickHouseTable implements WbPro
     private const PAGE_SIZE = 1000;
 
     /**
-     * @param array<WbProductEntity> $products
+     * @param array<Product> $products
      * @return void
      *
      * @throws FieldNotFoundException
