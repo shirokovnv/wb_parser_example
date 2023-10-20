@@ -6,7 +6,7 @@ namespace App\Service\WbProducts\Exception\Handlers;
 
 class DefaultExceptionHandler extends AbstractExceptionHandler
 {
-    private const DEFAULT_ERROR_MSG = 'Неизвестная ошибка';
+    private const DEFAULT_ERROR_MSG = 'Произошла ошибка';
 
     /**
      * @param \Throwable $prevException
@@ -14,6 +14,6 @@ class DefaultExceptionHandler extends AbstractExceptionHandler
      */
     public function createUserFriendlyMessageFor(\Throwable $prevException): string
     {
-        return self::DEFAULT_ERROR_MSG;
+        return sprintf('%s (%s)', self::DEFAULT_ERROR_MSG, $prevException->getMessage());
     }
 }
