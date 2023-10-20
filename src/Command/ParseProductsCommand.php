@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Command\Stages\Pipeline;
+use App\Command\Stages\StageConversion;
+use App\Command\Stages\StageInsertion;
+use App\Command\Stages\StagePagination;
+use App\Command\Stages\StageParsing;
 use App\Service\WbProducts\Converter\WbProductsConverterInterface;
 use App\Service\WbProducts\Exception\WbProductsExceptionHandler;
 use App\Service\WbProducts\Parser\WbProductsParserInterface;
@@ -18,12 +23,6 @@ use Cake\Console\ConsoleOptionParser;
 class ParseProductsCommand extends AbstractClickhouseCommand
 {
     private const KEY_QUERY = 'query';
-
-    private const MIN_PAGE = 1;
-
-    private const MAX_PAGE = 10;
-
-    private const PER_PAGE = 100;
 
     /**
      * @param WbProductsParserInterface $parser
@@ -68,36 +67,26 @@ class ParseProductsCommand extends AbstractClickhouseCommand
             return self::CODE_ERROR;
         }
 
-        $products = [];
-
         try {
-            // TODO: Здесь мы последовательно запрашиваем 10 страниц с внешнего источника.
-            // Подход: все или ничего, либо получаем всю 1000 товаров и записываем их, либо нет.
-            // Возможной оптимизацией является использование внешней зависимости Guzzle/Promises с асинхронным вызовом.
-            for ($page = self::MIN_PAGE; $page <= self::MAX_PAGE; $page++) {
-                $response = $this->parser->parseByUserParams($userQuery, $page);
+            // 1. Разбиение на страницы 1..10
+            // 2. Парсинг
+            // 3. Конвертация данных
+            // 4. Вставка 1000 записей
 
-                $products = array_merge(
-                    $products,
-                    $this->converter->convert($response->getContent(), ($page - 1) * self::PER_PAGE)
-                );
+            $pipeline = (new Stages\Pipeline((new StagePagination())()))
+                ->pipe((new StageParsing($this->parser, $userQuery)))
+                ->pipe((new StageConversion($this->converter, $io)))
+                ->pipe((new StageInsertion($this->repository, $io)))
+                ->tap();
 
-                $io->info(sprintf("Collect %d products", count($products)));
-            }
+            Pipeline::iterate($pipeline);
 
-            $this->repository->bulkInsert($products);
         } catch (\Throwable $exception) {
             $userFriendlyException = $this->exceptionHandler->handle($exception);
 
             $io->error($userFriendlyException->getMessage());
 
             return self::CODE_ERROR;
-        }
-
-        if (count($products) > 0) {
-            $io->out(sprintf("Inserted %d products\r\n", count($products)));
-        } else {
-            $io->out('No products inserted...');
         }
 
         return self::CODE_SUCCESS;
