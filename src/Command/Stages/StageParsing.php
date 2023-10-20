@@ -23,7 +23,7 @@ class StageParsing implements StageInterface
      * @param array|\Generator $flow
      * @return \Generator
      */
-    public function __invoke(array|\Generator $flow): \Generator
+    public function __invoke(array|\Generator $flow = []): \Generator
     {
         foreach($flow as $page) {
             $response = $this->parser->parseByUserParams($this->userQuery, $page);

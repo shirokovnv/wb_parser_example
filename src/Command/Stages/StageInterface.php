@@ -10,5 +10,5 @@ interface StageInterface
      * @param array|\Generator $flow
      * @return \Generator
      */
-    public function __invoke(array|\Generator $flow): \Generator;
+    public function __invoke(array|\Generator $flow = []): \Generator;
 }

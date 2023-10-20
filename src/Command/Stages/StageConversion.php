@@ -24,7 +24,7 @@ class StageConversion implements StageInterface
      * @param array|\Generator $flow
      * @return \Generator
      */
-    public function __invoke(array|\Generator $flow): \Generator
+    public function __invoke(array|\Generator $flow = []): \Generator
     {
         $batchProducts = [];
         foreach($flow as $page => $parseContent) {
