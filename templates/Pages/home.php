@@ -100,6 +100,10 @@ endif;
                             <li>Ввести ту же поисковую фразу и нажать <strong>Enter</strong></li>
                             <li>Если данные были успешно сохранены ранее, то они отобразятся в табличном виде</li>
                         </ol>
+
+                        <hr />
+                        <p><strong>Архитектура:</strong></p>
+                        <img src="/img/command_drawio.png" />
                     </div>
                 </div>
             </div>

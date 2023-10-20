@@ -7,6 +7,10 @@ Contains:
 1. Console command for parsing 1000 items per iteration and saving into ClickHouse.
 2. User-Form and Table View for visualizing data from ClickHouse.
 
+### How it works
+
+![parsing stages](/webroot/img/command_drawio.png)
+
 ## Dependencies
 
 - [Docker][link-docker]
