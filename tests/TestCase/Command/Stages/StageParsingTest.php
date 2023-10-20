@@ -35,6 +35,11 @@ class StageParsingTest extends TestCase
         foreach($stage([1, 2, 3]) as $parsedBody) {
             $response->getBody()->rewind();
             $this->assertStringContainsString($userQuery, $parsedBody);
+
+            $productsArr = json_decode($parsedBody, true, JSON_THROW_ON_ERROR);
+            $this->assertIsArray($productsArr);
+            $this->assertArrayHasKey('metadata', $productsArr);
+            $this->assertArrayHasKey('data', $productsArr);
         }
     }
 

@@ -30,10 +30,10 @@ class StageInsertionTest extends TestCase
         $io = ConsoleIoProvider::getInstance('out');
         $stage = new StageInsertion($repository, $io);
 
-        $products = ProductProvider::createRandomProducts('some query');
+        $randomProducts = ProductProvider::createRandomProducts('some query');
 
-        foreach($stage($products) as $product) {
-            $this->assertIsArray($product);
+        foreach($stage([$randomProducts]) as $products) {
+            $this->assertEquals($randomProducts, $products);
         }
     }
 
