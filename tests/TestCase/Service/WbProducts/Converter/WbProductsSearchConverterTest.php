@@ -5,9 +5,8 @@ declare(strict_types=1);
 namespace App\Test\TestCase\Service\WbProducts\Converter;
 
 use App\Service\WbProducts\Converter\Exception\ConvertException;
-use App\Service\WbProducts\Converter\WbProductsConverterInterface;
-use App\Service\WbProducts\Converter\WbProductsSearchConverter;
 use App\Service\WbProducts\DTO\WbProductEntity;
+use App\Test\Mocks\WbProductsEndpoint\Providers\WbProductsConverterProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -27,7 +26,7 @@ class WbProductsSearchConverterTest extends TestCase
      */
     public function testConversionSuccessful(string $data): void
     {
-        $converter = $this->getConverterInstance();
+        $converter = WbProductsConverterProvider::getInstance();
 
         $productArr = $converter->convert($data);
         $this->assertIsArray($productArr);
@@ -46,7 +45,7 @@ class WbProductsSearchConverterTest extends TestCase
      */
     public function testConversionErrors(?string $data): void
     {
-        $converter = $this->getConverterInstance();
+        $converter = WbProductsConverterProvider::getInstance();
 
         $this->expectException(ConvertException::class);
         $converter->convert($data);
@@ -78,13 +77,5 @@ class WbProductsSearchConverterTest extends TestCase
             ['{"metadata": {"name": "some name"}, "data": {"products": []}}'],
             ['{"metadata": {"name": "some name"}, "data": {"products": [{"name": "Name", "brand": "Brand"}]}}']
         ];
-    }
-
-    /**
-     * @return WbProductsConverterInterface
-     */
-    private function getConverterInstance(): WbProductsConverterInterface
-    {
-        return new WbProductsSearchConverter();
     }
 }

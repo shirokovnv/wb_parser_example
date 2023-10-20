@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Test\TestCase\Service\WbProducts\Parser\Factory;
+namespace App\Test\Mocks\WbProductsEndpoint;
 
 use Cake\Http\Response;
 use Psr\Http\Message\ResponseInterface;
@@ -10,7 +10,7 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * Фабрика для Http-ответов от search.wb.ru.
  */
-class WbSearchResponseFactory
+class WbProductsResponseFactory
 {
     /**
      * @param string $userQuery

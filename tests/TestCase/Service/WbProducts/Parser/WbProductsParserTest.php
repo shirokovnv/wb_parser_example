@@ -8,9 +8,11 @@ use App\Service\WbProducts\Parser\Client\WbSearchRequest;
 use App\Service\WbProducts\Parser\Client\WbSearchResponse;
 use App\Service\WbProducts\Parser\WbProductsParser;
 use App\Service\WbProducts\Parser\WbProductsParserInterface;
+use App\Test\Mocks\HttpClientProvider;
+use App\Test\Mocks\WbProductsEndpoint\Providers\WbProductsParserProvider;
+use App\Test\Mocks\WbProductsEndpoint\WbProductsExceptionFactory;
+use App\Test\Mocks\WbProductsEndpoint\WbProductsResponseFactory;
 use App\Test\TestCase\AbstractWithFakerTestCase;
-use App\Test\TestCase\Service\WbProducts\Parser\Factory\WbSearchExceptionFactory;
-use App\Test\TestCase\Service\WbProducts\Parser\Factory\WbSearchResponseFactory;
 use Mockery as m;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
@@ -32,9 +34,9 @@ class WbProductsParserTest extends AbstractWithFakerTestCase
      */
     public function testParserThrowsHttpException(): void
     {
-        $exception = WbSearchExceptionFactory::createRandomClientException();
-        $mockClient = $this->getMockHttpClient($exception);
-        $parser = $this->getParserInstance($mockClient);
+        $exception = WbProductsExceptionFactory::createRandomClientException();
+        $mockClient = HttpClientProvider::getInstance($exception);
+        $parser = WbProductsParserProvider::getInstance($mockClient);
 
         $this->expectException(ClientExceptionInterface::class);
 
@@ -51,10 +53,14 @@ class WbProductsParserTest extends AbstractWithFakerTestCase
         $userQuery = $this->faker->sentence;
         $numProducts = $this->faker->numberBetween(10, 100);
 
-        $response = WbSearchResponseFactory::createSuccessfulResponse($userQuery, $numProducts);
-
-        $mockClient = $this->getMockHttpClient($response, true);
-        $parser = $this->getParserInstance($mockClient);
+        $response = WbProductsResponseFactory::createSuccessfulResponse($userQuery, $numProducts);
+        $mockClient = HttpClientProvider::getInstance(
+            $response,
+            WbSearchRequest::class,
+            'search.wb.ru',
+            '/exactmatch/ru/common/v4/search'
+        );
+        $parser = WbProductsParserProvider::getInstance($mockClient);
 
         $parserResponse = $parser->parseByUserParams($userQuery, 1);
 
@@ -87,10 +93,15 @@ class WbProductsParserTest extends AbstractWithFakerTestCase
      */
     public function testParserReturnsEmptyResponse(): void
     {
-        $response = WbSearchResponseFactory::createEmptyResponse();
+        $response = WbProductsResponseFactory::createEmptyResponse();
 
-        $mockClient = $this->getMockHttpClient($response, true);
-        $parser = $this->getParserInstance($mockClient);
+        $mockClient = HttpClientProvider::getInstance(
+            $response,
+            WbSearchRequest::class,
+            'search.wb.ru',
+            '/exactmatch/ru/common/v4/search'
+        );
+        $parser = WbProductsParserProvider::getInstance($mockClient);
 
         $parserResponse = $parser->parseByUserParams($this->faker->sentence, $this->faker->randomDigit() + 1);
 

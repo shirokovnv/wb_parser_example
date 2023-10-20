@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Test\TestCase\Service\WbProducts\Parser\Factory;
+namespace App\Test\Mocks\WbProductsEndpoint;
 
 use Cake\Http\Client\Exception\ClientException;
 use Psr\Http\Client\ClientExceptionInterface;
@@ -10,7 +10,7 @@ use Psr\Http\Client\ClientExceptionInterface;
 /**
  * Фабрика по генерированию случайных исключений для Http-Client.
  */
-class WbSearchExceptionFactory
+class WbProductsExceptionFactory
 {
     private const CODES = [
         400 => 'Bad request',
