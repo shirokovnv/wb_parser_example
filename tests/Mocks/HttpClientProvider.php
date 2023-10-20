@@ -39,14 +39,8 @@ class HttpClientProvider
             return $isValid;
         }));
 
-        if ($responseOrException instanceof ClientExceptionInterface) {
-            return $mock
-                ->andThrow($responseOrException)
-                ->getMock();
-        }
-
-        return $mock
-            ->andReturn($responseOrException)
-            ->getMock();
+        return $responseOrException instanceof ClientExceptionInterface
+            ? $mock->andThrow($responseOrException)->getMock()
+            : $mock->andReturn($responseOrException)->getMock();
     }
 }
