@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Model\Table;
 
-use App\Service\WbProducts\Entity\Product;
+use App\Service\WbProducts\DTO\Product;
 use Eggheads\CakephpClickHouse\ClickHouseTableInterface;
 
 interface WbProductsTableInterface extends ClickHouseTableInterface

@@ -6,7 +6,7 @@ namespace App\Test\TestCase\Command\Stages;
 
 use App\Command\Stages\StageConversion;
 use App\Service\WbProducts\Converter\Exception\ConvertException;
-use App\Service\WbProducts\Entity\Product;
+use App\Service\WbProducts\DTO\Product;
 use App\Test\Mocks\ConsoleIoProvider;
 use App\Test\Mocks\WbProductsEndpoint\Providers\WbProductsConverterProvider;
 use App\Test\Mocks\WbProductsEndpoint\WbProductsResponseFactory;

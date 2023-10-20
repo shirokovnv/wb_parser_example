@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Form\WbProductsSearchForm;
-use App\Service\WbProducts\Entity\Product;
+use App\Service\WbProducts\DTO\Product;
 use App\Service\WbProducts\Exception\WbProductsExceptionHandler;
 use App\Service\WbProducts\Repository\WbProductsRepositoryInterface;
 

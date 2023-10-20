@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Test\TestCase\Service\WbProducts\DTO;
 
-use App\Service\WbProducts\Entity\Product;
+use App\Service\WbProducts\DTO\Product;
 use App\Test\TestCase\AbstractWithFakerTestCase;
 
 /**
- * @covers \App\Service\WbProducts\Entity\Product
+ * @covers \App\Service\WbProducts\DTO\Product
  *
  * @group service
  * @group wbProducts

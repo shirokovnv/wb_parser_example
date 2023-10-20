@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Test\TestCase\Service\WbProducts\Converter;
 
 use App\Service\WbProducts\Converter\Exception\ConvertException;
-use App\Service\WbProducts\Entity\Product;
+use App\Service\WbProducts\DTO\Product;
 use App\Test\Mocks\WbProductsEndpoint\Providers\WbProductsConverterProvider;
 use PHPUnit\Framework\TestCase;
 

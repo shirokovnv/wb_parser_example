@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\WbProducts\Converter;
 
-use App\Service\WbProducts\Entity\Product;
+use App\Service\WbProducts\DTO\Product;
 
 interface WbProductsConverterInterface
 {

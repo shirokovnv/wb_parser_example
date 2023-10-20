@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Service\WbProducts\Converter;
 
 use App\Service\WbProducts\Converter\Exception\ConvertException;
-use App\Service\WbProducts\Entity\Product;
+use App\Service\WbProducts\DTO\Product;
 
 /**
  * Зона ответственности: преобразование сырых (строковый JSON c search.wb.ru) данных товаров в массив DTO Product;

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Service\WbProducts\Entity;
+namespace App\Service\WbProducts\DTO;
 
 class Product
 {

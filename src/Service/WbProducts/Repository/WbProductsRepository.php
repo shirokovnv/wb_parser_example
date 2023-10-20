@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Service\WbProducts\Repository;
 
 use App\Model\Table\WbProductsTableInterface;
-use App\Service\WbProducts\Entity\Product;
+use App\Service\WbProducts\DTO\Product;
 use ClickHouseDB\Exception\QueryException;
 use Eggheads\CakephpClickHouse\Exception\FieldNotFoundException;
 
