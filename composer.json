@@ -1,7 +1,7 @@
 {
-    "name": "cakephp/app",
-    "description": "CakePHP skeleton app",
-    "homepage": "https://cakephp.org",
+    "name": "wildberries_parser/app",
+    "description": "Wildberries Parser Example",
+    "homepage": "https://github.com/shirokovnv/wb_parser_example",
     "type": "project",
     "license": "MIT",
     "repositories": [
