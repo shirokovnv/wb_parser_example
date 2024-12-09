@@ -17,7 +17,7 @@
         "cakephp/migrations": "^3.7",
         "cakephp/plugin-installer": "^1.3",
         "eggheads/cakephp-clickhouse": "^1.15",
-        "mobiledetect/mobiledetectlib": "^3.74"
+        "mobiledetect/mobiledetectlib": "^4.8"
     },
     "require-dev": {
         "cakephp/bake": "^2.8",
